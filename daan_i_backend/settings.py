@@ -90,12 +90,12 @@ WSGI_APPLICATION = "daan_i_backend.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'daanidatabase',
-        'USER': 'adesh',
-        'PASSWORD': 'Adesh@123',
-        'HOST': 'localhost',
-        'PORT': '',
+        'USER': 'admin',
+        'PASSWORD': 'DaaniAdmin',
+        'HOST': 'daani-database.cxayw24ckq7h.ap-south-1.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 
