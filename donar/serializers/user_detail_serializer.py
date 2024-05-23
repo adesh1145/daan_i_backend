@@ -8,12 +8,12 @@ from django.utils.translation import gettext as _
 class UserDetailSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
     email = serializers.EmailField()
-    mobile = serializers.CharField(max_length=10)
+    mobile = serializers.CharField(max_length=10, allow_blank=True,)
     password = serializers.CharField(write_only=True, max_length=100)
     # created_date = serializers.DateTimeField(read_only=True)  # Created date as read-only
     # updated_date = serializers.DateTimeField(read_only=True)
-    profile_image_url = serializers.URLField(
-        allow_blank=True, required=False)  # Store image URL
+    profile_image = serializers.ImageField(
+        required=False)  # Store image URL
     address = serializers.CharField(max_length=255, required=False)
 
     def __str__(self):
@@ -33,18 +33,14 @@ class UserDetailSerializer(serializers.Serializer):
         """
         return UserDetailModel.objects.create(**validated_data)
 
-    # def update(self, instance, validated_data):
-    #     """
-    #     Update and return an existing `Donars` instance.
-    #     """
-    #     instance.name = validated_data.get('name', instance.name)
-    #     instance.email = validated_data.get('email', instance.email)
-    #     instance.phone = validated_data.get('phone', instance.phone)
-    #     instance.password = validated_data.get('password', instance.password)
-    #     instance.profile_image_url = validated_data.get('profile_image_url', instance.profile_image_url)
-    #     instance.address = validated_data.get('address', instance.address)
-    #     instance.save()
-    #     return instance
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.profile_image = validated_data.get(
+            'profile_image', instance.profile_image)
+
+        instance.save()
+
+        return instance
 
 
 class OTPSerializer(serializers.Serializer):

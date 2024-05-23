@@ -16,6 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from ngo.views.ngo_auth_views import *
+
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("signupStepOne", NGORegistrationStep1View.as_view(),
+         name="NGO Signup Step 1"),
+    path("signupStepTwo", NGORegistrationStep2View.as_view(),
+         name="NGO Signup Step 2"),
+    path("signupStepThree", NGORegistrationStep3View.as_view(),
+         name="NGO Signup Step 3"),
+    path("otpVerify", OTPVerificationView.as_view(),
+         name="NGO OTP Verification"),
+    path("login", LoginView.as_view(),
+         name="NGO Login"),
 ]

@@ -1,17 +1,36 @@
 
 # Create your views here.
 
+from daan_i_backend.utils.response_model import errorMsg
+from donar.views.custom_base_auth_apiview import DonarBaseAuthAPIView
 from ..common_imports import *
 
 
 from ..serializers.user_detail_serializer import *
 
 from ..models.user_model import UserDetailModel
-from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
-from datetime import timedelta
 
 
-class UserRegistrationView(APIView):
+from rest_framework.permissions import AllowAny
+
+
+class UserRegistrationView(DonarBaseAuthAPIView):
+    except_token_Api_method = ["POST"]
+
+    def get(self, request, *args, **kwargs):
+
+        user = request.user
+
+        if user:
+            return responseModel(
+                status=True,
+                data=UserDetailSerializer(instance=user).data
+            )
+        return responseModel(
+            status=False,
+            msg=errorMsg("UserDetailNotExist"),
+            data="UserDetailNotExist", statusCode=status.HTTP_400_BAD_REQUEST)
+
     def post(self, request):
         serializer = UserDetailSerializer(data=request.data)
 
@@ -24,16 +43,38 @@ class UserRegistrationView(APIView):
                       serializer.validated_data.get('email'))
 
             cache.set(serializer.validated_data.get('email'), otp, timeout=600)
-            return ResponseModel({
+            return responseModel({
 
                 "message": gettext("userRegistersuccessfully")
             },
                 msg=gettext("userRegistersuccessfully")
 
             )
-        return ResponseModel(
+        return responseModel(
             status=False,
+            msg=errorMsg(serializer.errors),
             data=serializer.errors, statusCode=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, *args, **kwargs):
+        ngoDetail = request.user
+
+        if ngoDetail:
+            serializer = UserDetailSerializer(
+                data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.update(
+                    validated_data=serializer.validated_data, instance=ngoDetail)
+
+                return responseModel(
+                    status=True,
+                    msg=gettext("profileUpdated")
+                )
+            else:
+                print(serializer.is_valid())
+        return responseModel(
+            status=False,
+            msg=errorMsg("UserDetailNotExist"),
+            data="UserDetailNotExist", statusCode=status.HTTP_400_BAD_REQUEST)
 
 
 def generate_otp():
@@ -42,6 +83,8 @@ def generate_otp():
 
 
 class OTPVerificationView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request, *args, **kwargs):
         otpSerializer = OTPSerializer(data=request.data)
         if otpSerializer.is_valid():
@@ -49,7 +92,7 @@ class OTPVerificationView(APIView):
                 otpSerializer.validated_data['email'])
 
             if cached_otp is None:
-                return ResponseModel({'message': 'OTP has expired or not generated yet.'}, status=False, statusCode=status.HTTP_400_BAD_REQUEST)
+                return responseModel({'message': 'OTP has expired or not generated yet.'}, status=False, statusCode=status.HTTP_400_BAD_REQUEST)
 
             if otpSerializer.validated_data['otp'] == cached_otp:
                 user_detail = UserDetailModel.objects.get(
@@ -58,17 +101,24 @@ class OTPVerificationView(APIView):
                 user_detail.save()
 
                 cache.delete(otpSerializer.validated_data['email'])
-                return ResponseModel({'message': 'OTP verified successfully.'}, statusCode=status.HTTP_200_OK)
+                return responseModel({
+                    'message': 'OTP verified successfully.',
+                    'token': getToken(user=user_detail)
+
+                }, statusCode=status.HTTP_200_OK)
             else:
 
-                return ResponseModel({'message': 'Incorrect OTP entered.'}, status=False, statusCode=status.HTTP_400_BAD_REQUEST)
+                return responseModel({'message': 'Incorrect OTP entered.'}, status=False, statusCode=status.HTTP_400_BAD_REQUEST)
 
-        return ResponseModel(
+        return responseModel(
             status=False,
+            msg=errorMsg(otpSerializer.errors),
             data=otpSerializer.errors, statusCode=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
 
         loginSerializer = LoginSerializer(data=request.data)
@@ -81,7 +131,7 @@ class LoginView(APIView):
             if user.password == loginSerializer.validated_data['password']:
                 if user.isVerified:
 
-                    return ResponseModel(
+                    return responseModel(
                         {
                             'message': "Successful Login",
                             'isVerify': True,
@@ -97,8 +147,9 @@ class LoginView(APIView):
                     message = f'Your OTP Is {otp}'
                     sendEmail(subject, message,
                               loginSerializer.validated_data.get('email'))
-
-                    return ResponseModel(
+                    cache.set(f"{loginSerializer.validated_data.get(
+                        'email')}", otp, timeout=600)
+                    return responseModel(
                         {
                             'message': "Your Account Is Not Verified",
                             'isVerify': False
@@ -109,7 +160,7 @@ class LoginView(APIView):
                     )
 
             else:
-                return ResponseModel(
+                return responseModel(
                     {
                         'message': "Password Incorrect"
                     },
@@ -118,7 +169,7 @@ class LoginView(APIView):
                     statusCode=status.HTTP_400_BAD_REQUEST
                 )
 
-        return ResponseModel(
+        return responseModel(
             status=False,
-            msg="Error",
+            msg=errorMsg(loginSerializer.errors),
             data=loginSerializer.errors, statusCode=status.HTTP_400_BAD_REQUEST)

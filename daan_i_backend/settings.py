@@ -26,7 +26,6 @@ SECRET_KEY = "django-insecure-z#_3r5lv9wj^+16-ijmtc-&e=e=)^gmg&^dyse__kz1=#5v9@)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
 ALLOWED_HOSTS = ["*"]
 
 
@@ -43,7 +42,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_xml',
     'donar',
-    'ngo'
+    'ngo',
+    'common',
+
 ]
 
 MIDDLEWARE = [
@@ -80,25 +81,32 @@ WSGI_APPLICATION = "daan_i_backend.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+# ! For Sqlite3
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.sqlite3",
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
-
+# ! for Aws RDS=> Mysql
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'daanidatabase',
+#         'USER': 'admin',
+#         'PASSWORD': 'DaaniAdmin',
+#         'HOST': 'daani-database.cxayw24ckq7h.ap-south-1.rds.amazonaws.com',
+#         'PORT': '3306',
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'daanidatabase',
-        'USER': 'admin',
-        'PASSWORD': 'DaaniAdmin',
-        'HOST': 'daani-database.cxayw24ckq7h.ap-south-1.rds.amazonaws.com',
-        'PORT': '3306',
+        'OPTIONS': {
+            'read_default_file': '/etc/mysql/my.cnf',
+        },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -126,8 +134,8 @@ LANGUAGE_CODE = 'en-us'  # Default language code
 USE_I18N = True  # Enable internationalization
 USE_L10N = True  # Enable localization
 
-TIME_ZONE = "UTC"
-
+# TIME_ZONE = "UTC"
+TIME_ZONE = 'Asia/Kolkata'
 USE_TZ = True
 LANGUAGES = [
     ('en', 'English'),
@@ -150,14 +158,17 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 REST_FRAMEWORK = {
-
+    'EXCEPTION_HANDLER': 'daan_i_backend.utils.custom_exception_handler.custom_exception_handler',
     'DEFAULT_AUTHENTICATION_CLASSES': (
 
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 
 }
 SIMPLE_JWT = {
