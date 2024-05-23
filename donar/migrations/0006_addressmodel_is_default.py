@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('donar', '0005_addressmodel_city_addressmodel_user'),
+        ("donar", "0005_addressmodel_city_addressmodel_user"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='addressmodel',
-            name='is_default',
+            model_name="addressmodel",
+            name="is_default",
             field=models.BooleanField(default=False),
         ),
     ]

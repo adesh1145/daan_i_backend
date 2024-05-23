@@ -7,14 +7,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0003_categorymodel'),
-        ('donar', '0003_addressmodel'),
+        ("common", "0003_categorymodel"),
+        ("donar", "0003_addressmodel"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='addressmodel',
-            name='state',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='state', to='common.statemodel'),
+            model_name="addressmodel",
+            name="state",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="state",
+                to="common.statemodel",
+            ),
         ),
     ]

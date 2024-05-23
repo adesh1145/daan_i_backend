@@ -2,16 +2,20 @@ from rest_framework.response import Response
 from django.utils.translation import gettext
 
 
-def responseModel(data=None, msg=gettext("Successful"), statusCode=None, status=True,):
+def responseModel(
+    data=None,
+    msg=gettext("Successful"),
+    statusCode=None,
+    status=True,
+):
 
     return Response(
         data={
-            'status': status,
-            'msg': msg,
-            'response': data,
+            "status": status,
+            "msg": msg,
+            "response": data,
         },
         status=statusCode,
-
     )
 
 

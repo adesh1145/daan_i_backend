@@ -1,7 +1,7 @@
-
 from rest_framework import serializers
 from ..models.ngo_user_model import NGODetailModel
 from donar.models.user_model import UserDetailModel
+
 # Create your models here.
 from django.utils.translation import gettext as _
 from common.models.state_city_models import CityModel, StateModel
@@ -42,9 +42,9 @@ class NgoDetailStep1Serializer(serializers.Serializer):
 
     def update(self, instance, validated_data: dict):
         # validated_data.get('name')
-        name = validated_data['ngo_name']
+        name = validated_data["ngo_name"]
         validated_data.clear()
-        validated_data = {'ngo_name': name}
+        validated_data = {"ngo_name": name}
         setattr(instance, "ngo_name", name)
         return instance.save()
 
@@ -54,13 +54,18 @@ class NgoDetailStep2Serializer(serializers.Serializer):
     ngo_image = serializers.ImageField()
     reg_certificate_image = serializers.ImageField()
     pan_card_image = serializers.ImageField()
-    ngo_owner_ame = serializers.CharField(max_length=255,)
+    ngo_owner_ame = serializers.CharField(
+        max_length=255,
+    )
     reg_certificate_no = serializers.CharField(max_length=255)
-    pan_no = serializers.CharField(max_length=255,)
-    gst_no = serializers.CharField(max_length=255,)
+    pan_no = serializers.CharField(
+        max_length=255,
+    )
+    gst_no = serializers.CharField(
+        max_length=255,
+    )
     accept_category = serializers.ListField(
-        child=serializers.IntegerField(),
-        write_only=True
+        child=serializers.IntegerField(), write_only=True
     )
     accept_category_details = serializers.SerializerMethodField()
 
@@ -88,7 +93,7 @@ class NgoDetailStep2Serializer(serializers.Serializer):
         return serializers.ValidationError(_("categotyIdDoesNotExist"))
 
     def update(self, instance: NGODetailModel, validated_data: dict):
-        categoryList = validated_data.pop('accept_category', [])
+        categoryList = validated_data.pop("accept_category", [])
 
         for field, value in validated_data.items():
             setattr(instance, field, value)
@@ -102,11 +107,14 @@ class NgoDetailStep3Serializer(serializers.Serializer):
 
     latitude = serializers.FloatField()
     longitude = serializers.FloatField()
-    address = serializers.CharField(max_length=255,)
-    landmark = serializers.CharField(max_length=255,)
+    address = serializers.CharField(
+        max_length=255,
+    )
+    landmark = serializers.CharField(
+        max_length=255,
+    )
     pincode = serializers.IntegerField()
-    state = serializers.PrimaryKeyRelatedField(
-        queryset=StateModel.objects.all())
+    state = serializers.PrimaryKeyRelatedField(queryset=StateModel.objects.all())
     city = serializers.PrimaryKeyRelatedField(queryset=CityModel.objects.all())
 
     def validate(self, attrs):
@@ -122,7 +130,9 @@ class NgoDetailStep3Serializer(serializers.Serializer):
 
     def validate_city(self, value):
 
-        if CityModel.objects.filter(id=value.id, state=self.initial_data.get('state')).exists():
+        if CityModel.objects.filter(
+            id=value.id, state=self.initial_data.get("state")
+        ).exists():
             return value
         raise serializers.ValidationError(_("CityIdNotExistInThisState"))
 
@@ -141,8 +151,7 @@ class OTPSerializer(serializers.Serializer):
     def validate_otp(self, value):
 
         if len(str(value)) != 4:
-            raise serializers.ValidationError(
-                "Value must be a 4-digit number.")
+            raise serializers.ValidationError("Value must be a 4-digit number.")
         return value
 
 

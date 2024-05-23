@@ -9,22 +9,28 @@ from .models.category_model import CategoryModel
 
 class StateAdmin(admin.ModelAdmin):
     # Display these fields in the admin panel
-    list_display = ['id', 'name', ]
+    list_display = [
+        "id",
+        "name",
+    ]
 
 
 class CityAdmin(admin.ModelAdmin):
     # Display these fields in the admin panel
-    list_display = ['id', 'name']
+    list_display = ["id", "name"]
 
 
 class CategoryAdmin(admin.ModelAdmin):
     # Display these fields in the admin panel
-    list_display = ['id', 'category_name', ]
+    list_display = [
+        "id",
+        "category_name",
+    ]
 
 
 class OrderAddressAdmin(admin.ModelAdmin):
     # Display these fields in the admin panel
-    list_display = ['id', 'address', 'city', 'state']
+    list_display = ["id", "address", "city", "state"]
 
 
 admin.site.register(StateModel, StateAdmin)
@@ -44,9 +50,9 @@ class OrderAddressInline(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'order_id', 'donar', 'ngo', 'order_status']
-    list_filter = ['order_status']
-    search_fields = ['order_id']
+    list_display = ["id", "order_id", "donar", "ngo", "order_status"]
+    list_filter = ["order_status"]
+    search_fields = ["order_id"]
     inlines = [OrderImageInline, OrderAddressInline]
 
 

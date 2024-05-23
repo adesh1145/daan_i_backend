@@ -7,28 +7,27 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='UserDetailModel',
+            name="UserDetailModel",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=100)),
-                ('email', models.EmailField(max_length=254, unique=True)),
-                ('mobile', models.CharField(max_length=10)),
-                ('password', models.CharField(max_length=100)),
-                ('isVerified', models.BooleanField(default=False)),
-                ('created_date', models.DateTimeField(auto_now_add=True)),
-                ('updated_date', models.DateTimeField(auto_now=True)),
-                ('profile_image_url', models.URLField(blank=True)),
-                ('address', models.CharField(blank=True, max_length=255)),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("name", models.CharField(max_length=100)),
+                ("email", models.EmailField(max_length=254, unique=True)),
+                ("mobile", models.CharField(max_length=10)),
+                ("password", models.CharField(max_length=100)),
+                ("isVerified", models.BooleanField(default=False)),
+                ("created_date", models.DateTimeField(auto_now_add=True)),
+                ("updated_date", models.DateTimeField(auto_now=True)),
+                ("profile_image_url", models.URLField(blank=True)),
+                ("address", models.CharField(blank=True, max_length=255)),
             ],
             options={
-                'verbose_name': 'User Detail',
-                'verbose_name_plural': 'Users Detail',
-                'db_table': 'donar_user_detail',
+                "verbose_name": "User Detail",
+                "verbose_name_plural": "Users Detail",
+                "db_table": "donar_user_detail",
             },
         ),
     ]

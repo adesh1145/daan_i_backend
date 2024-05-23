@@ -13,14 +13,11 @@ Including another URLconf
 from django.urls import path
 from .views.user_auth_views import *
 from .views.address_views import *
+
 urlpatterns = [
     path("signup", UserRegistrationView.as_view(), name="Donar Signup"),
-    path("otpVerify", OTPVerificationView.as_view(),
-         name="Donar OTP Verification"),
-    path("login", LoginView.as_view(),
-         name="Donar Login"),
-    path("address", AddressView.as_view(),
-         name="Address"),
-    path("address/<int:id>", AddressView.as_view(),
-         name="Address with Id"),
+    path("otpVerify", OTPVerificationView.as_view(), name="Donar OTP Verification"),
+    path("login", LoginView.as_view(), name="Donar Login"),
+    path("address", AddressView.as_view(), name="Address"),
+    path("address/<int:id>", AddressView.as_view(), name="Address with Id"),
 ]

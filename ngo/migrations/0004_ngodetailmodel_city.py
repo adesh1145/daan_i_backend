@@ -7,14 +7,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0003_categorymodel'),
-        ('ngo', '0003_alter_ngodetailmodel_pincode'),
+        ("common", "0003_categorymodel"),
+        ("ngo", "0003_alter_ngodetailmodel_pincode"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='ngodetailmodel',
-            name='city',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='users', to='common.citymodel'),
+            model_name="ngodetailmodel",
+            name="city",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="users",
+                to="common.citymodel",
+            ),
         ),
     ]

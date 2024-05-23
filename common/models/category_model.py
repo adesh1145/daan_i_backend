@@ -6,9 +6,9 @@ class CategoryModel(models.Model):
     category_name = models.CharField(max_length=100)
 
     class Meta:
-        db_table = 'category'
-        verbose_name = 'Category'  # Change the display name for a single object
-        verbose_name_plural = 'categories'
+        db_table = "category"
+        verbose_name = "Category"  # Change the display name for a single object
+        verbose_name_plural = "categories"
 
     def __str__(self):
         return self.category_name

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ngo', '0002_alter_ngodetailmodel_state'),
+        ("ngo", "0002_alter_ngodetailmodel_state"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ngodetailmodel',
-            name='pincode',
+            model_name="ngodetailmodel",
+            name="pincode",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
     ]

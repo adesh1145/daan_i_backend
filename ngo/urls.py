@@ -13,20 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path
 
 from ngo.views.ngo_auth_views import *
 
 urlpatterns = [
-    path("signupStepOne", NGORegistrationStep1View.as_view(),
-         name="NGO Signup Step 1"),
-    path("signupStepTwo", NGORegistrationStep2View.as_view(),
-         name="NGO Signup Step 2"),
-    path("signupStepThree", NGORegistrationStep3View.as_view(),
-         name="NGO Signup Step 3"),
-    path("otpVerify", OTPVerificationView.as_view(),
-         name="NGO OTP Verification"),
-    path("login", LoginView.as_view(),
-         name="NGO Login"),
+    path("signupStepOne", NGORegistrationStep1View.as_view(), name="NGO Signup Step 1"),
+    path("signupStepTwo", NGORegistrationStep2View.as_view(), name="NGO Signup Step 2"),
+    path(
+        "signupStepThree", NGORegistrationStep3View.as_view(), name="NGO Signup Step 3"
+    ),
+    path("otpVerify", OTPVerificationView.as_view(), name="NGO OTP Verification"),
+    path("login", LoginView.as_view(), name="NGO Login"),
 ]

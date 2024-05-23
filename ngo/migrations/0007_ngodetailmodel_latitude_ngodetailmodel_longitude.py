@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ngo', '0006_ngodetailmodel_landmark'),
+        ("ngo", "0006_ngodetailmodel_landmark"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='ngodetailmodel',
-            name='latitude',
+            model_name="ngodetailmodel",
+            name="latitude",
             field=models.FloatField(default=0.0),
         ),
         migrations.AddField(
-            model_name='ngodetailmodel',
-            name='longitude',
+            model_name="ngodetailmodel",
+            name="longitude",
             field=models.FloatField(default=0.0),
         ),
     ]

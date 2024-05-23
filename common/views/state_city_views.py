@@ -24,7 +24,7 @@ class CityView(ListAPIView):
     serializer_class = CitySerializer
 
     def list(self, request, *args, **kwargs):
-        stateId = request.query_params.get('stateId')
+        stateId = request.query_params.get("stateId")
         if stateId:
             queryset = CityModel.objects.filter(state_id=stateId)
         else:

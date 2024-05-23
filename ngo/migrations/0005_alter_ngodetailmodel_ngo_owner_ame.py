@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ngo', '0004_ngodetailmodel_city'),
+        ("ngo", "0004_ngodetailmodel_city"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ngodetailmodel',
-            name='ngo_owner_ame',
+            model_name="ngodetailmodel",
+            name="ngo_owner_ame",
             field=models.CharField(blank=True, max_length=100),
         ),
     ]

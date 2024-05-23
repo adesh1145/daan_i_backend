@@ -9,37 +9,44 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('common', '0003_categorymodel'),
+        ("common", "0003_categorymodel"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='NGODetailModel',
+            name="NGODetailModel",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('ngo_name', models.CharField(max_length=100)),
-                ('email', models.EmailField(max_length=254, unique=True)),
-                ('mobile', models.CharField(max_length=10)),
-                ('password', models.CharField(max_length=100)),
-                ('t_and_c_status', models.BooleanField(default=False)),
-                ('is_verified', models.BooleanField(default=False)),
-                ('created_date', models.DateTimeField(auto_now_add=True)),
-                ('updated_date', models.DateTimeField(auto_now=True)),
-                ('ngo_image', models.ImageField(blank=True, upload_to='')),
-                ('reg_certificate_image', models.ImageField(blank=True, upload_to='')),
-                ('pan_card_image', models.ImageField(blank=True, upload_to='')),
-                ('ngo_owner_ame', models.CharField(max_length=100)),
-                ('reg_certificate_no', models.CharField(blank=True, max_length=255)),
-                ('pan_no', models.CharField(blank=True, max_length=255)),
-                ('gst_no', models.CharField(blank=True, max_length=255)),
-                ('address', models.CharField(blank=True, max_length=255)),
-                ('pincode', models.PositiveIntegerField(blank=True)),
-                ('state', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='users', to='common.statemodel')),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("ngo_name", models.CharField(max_length=100)),
+                ("email", models.EmailField(max_length=254, unique=True)),
+                ("mobile", models.CharField(max_length=10)),
+                ("password", models.CharField(max_length=100)),
+                ("t_and_c_status", models.BooleanField(default=False)),
+                ("is_verified", models.BooleanField(default=False)),
+                ("created_date", models.DateTimeField(auto_now_add=True)),
+                ("updated_date", models.DateTimeField(auto_now=True)),
+                ("ngo_image", models.ImageField(blank=True, upload_to="")),
+                ("reg_certificate_image", models.ImageField(blank=True, upload_to="")),
+                ("pan_card_image", models.ImageField(blank=True, upload_to="")),
+                ("ngo_owner_ame", models.CharField(max_length=100)),
+                ("reg_certificate_no", models.CharField(blank=True, max_length=255)),
+                ("pan_no", models.CharField(blank=True, max_length=255)),
+                ("gst_no", models.CharField(blank=True, max_length=255)),
+                ("address", models.CharField(blank=True, max_length=255)),
+                ("pincode", models.PositiveIntegerField(blank=True)),
+                (
+                    "state",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="users",
+                        to="common.statemodel",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'NGO User Detail',
-                'verbose_name_plural': 'NGO Users Detail',
-                'db_table': 'ngo_user_detail',
+                "verbose_name": "NGO User Detail",
+                "verbose_name_plural": "NGO Users Detail",
+                "db_table": "ngo_user_detail",
             },
         ),
     ]

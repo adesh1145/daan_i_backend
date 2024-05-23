@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,13 +40,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'rest_framework',
-    'rest_framework_simplejwt',
-    'rest_framework_xml',
-    'donar',
-    'ngo',
-    'common',
-
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "rest_framework_xml",
+    "donar",
+    "ngo",
+    "common",
 ]
 
 MIDDLEWARE = [
@@ -53,7 +53,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    'django.middleware.locale.LocaleMiddleware',
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -101,10 +101,10 @@ WSGI_APPLICATION = "daan_i_backend.wsgi.application"
 #     }
 # }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': '/etc/mysql/my.cnf',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "OPTIONS": {
+            "read_default_file": "/etc/mysql/my.cnf",
         },
     }
 }
@@ -130,22 +130,20 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
-LANGUAGE_CODE = 'en-us'  # Default language code
+LANGUAGE_CODE = "en-us"  # Default language code
 
 USE_I18N = True  # Enable internationalization
 USE_L10N = True  # Enable localization
 
 # TIME_ZONE = "UTC"
-TIME_ZONE = 'Asia/Kolkata'
+TIME_ZONE = "Asia/Kolkata"
 USE_TZ = True
 LANGUAGES = [
-    ('en', 'English'),
-    ('hi', 'Hindi'),
+    ("en", "English"),
+    ("hi", "Hindi"),
     # Add more languages as needed
 ]
-LOCALE_PATHS = [
-    BASE_DIR / "locale"  # Path to your locale directory
-]
+LOCALE_PATHS = [BASE_DIR / "locale"]  # Path to your locale directory
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -158,12 +156,12 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-STATIC_DIR = os.path.join(BASE_DIR, 'static_dir')
+STATIC_DIR = os.path.join(BASE_DIR, "static_dir")
 
 STATICFILES_DIRS = [STATIC_DIR]
 # STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
@@ -172,15 +170,11 @@ STATICFILES_DIRS = [STATIC_DIR]
 
 
 REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'daan_i_backend.utils.custom_exception_handler.custom_exception_handler',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "EXCEPTION_HANDLER": "daan_i_backend.utils.custom_exception_handler.custom_exception_handler",
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
 SIMPLE_JWT = {
     # Set refresh token lifetime to 30 days
@@ -193,9 +187,9 @@ SIMPLE_JWT = {
 
 # ! Mail Configuration
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'daaniapps@gmail.com'
-EMAIL_HOST_PASSWORD = 'fcvc sfgv lbqc ynph'
+EMAIL_HOST_USER = "daaniapps@gmail.com"
+EMAIL_HOST_PASSWORD = "fcvc sfgv lbqc ynph"

@@ -1,4 +1,3 @@
-
 from rest_framework.views import APIView
 from rest_framework import status
 from daan_i_backend.utils.response_model import responseModel

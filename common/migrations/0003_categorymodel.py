@@ -6,20 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0002_alter_citymodel_options_alter_statemodel_options_and_more'),
+        ("common", "0002_alter_citymodel_options_alter_statemodel_options_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CategoryModel',
+            name="CategoryModel",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('category_name', models.CharField(max_length=100)),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("category_name", models.CharField(max_length=100)),
             ],
             options={
-                'verbose_name': 'Category',
-                'verbose_name_plural': 'categories',
-                'db_table': 'category',
+                "verbose_name": "Category",
+                "verbose_name_plural": "categories",
+                "db_table": "category",
             },
         ),
     ]

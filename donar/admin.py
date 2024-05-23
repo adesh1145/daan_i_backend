@@ -7,13 +7,13 @@ from .models.user_model import UserDetailModel
 
 class DonarUserAdmin(admin.ModelAdmin):
     # Display these fields in the admin panel
-    list_display = ['id', 'name', 'email', 'isVerified']
-    readonly_fields = ['id', 'created_date', 'updated_date', 'isVerified']
+    list_display = ["id", "name", "email", "isVerified"]
+    readonly_fields = ["id", "created_date", "updated_date", "isVerified"]
 
 
 class AddressAdmin(admin.ModelAdmin):
     # Display these fields in the admin panel
-    list_display = ['id', 'address', 'city', 'state', 'is_default']
+    list_display = ["id", "address", "city", "state", "is_default"]
 
 
 admin.site.register(UserDetailModel, DonarUserAdmin)

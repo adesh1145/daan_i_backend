@@ -16,9 +16,7 @@ from .views.state_city_views import StateView, CityView
 
 
 urlpatterns = [
-
     path("category", CategoryView.as_view(), name="Category List"),
     path("state", StateView.as_view(), name="State List"),
     path("city", CityView.as_view(), name="City List"),
-
 ]

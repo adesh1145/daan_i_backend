@@ -6,24 +6,24 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0001_initial'),
+        ("common", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='citymodel',
-            options={'verbose_name': 'City', 'verbose_name_plural': 'Cities'},
+            name="citymodel",
+            options={"verbose_name": "City", "verbose_name_plural": "Cities"},
         ),
         migrations.AlterModelOptions(
-            name='statemodel',
-            options={'verbose_name': 'State', 'verbose_name_plural': 'States'},
+            name="statemodel",
+            options={"verbose_name": "State", "verbose_name_plural": "States"},
         ),
         migrations.AlterModelTable(
-            name='citymodel',
-            table='City',
+            name="citymodel",
+            table="City",
         ),
         migrations.AlterModelTable(
-            name='statemodel',
-            table='State',
+            name="statemodel",
+            table="State",
         ),
     ]

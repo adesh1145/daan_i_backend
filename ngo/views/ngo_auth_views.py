@@ -1,4 +1,3 @@
-
 # Create your views here.
 
 from ngo.views.custom_base_auth_apiview import NGOBaseAuthAPIView
@@ -12,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
 class NGORegistrationStep1View(NGOBaseAuthAPIView):
-    except_token_Api_method = ['POST']
+    except_token_Api_method = ["POST"]
 
     def get(self, request, *args, **kwargs):
 
@@ -20,58 +19,64 @@ class NGORegistrationStep1View(NGOBaseAuthAPIView):
 
         if user:
             return responseModel(
-                status=True,
-                data=NgoDetailStep1Serializer(instance=user).data
+                status=True, data=NgoDetailStep1Serializer(instance=user).data
             )
         return responseModel(
             status=False,
             msg=errorMsg("UserDetailNotExist"),
-            data="UserDetailNotExist", statusCode=status.HTTP_400_BAD_REQUEST)
+            data="UserDetailNotExist",
+            statusCode=status.HTTP_400_BAD_REQUEST,
+        )
 
     def post(self, request):
         serializer = NgoDetailStep1Serializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             otp = generate_otp()
-            subject = 'Daan-i OTP Verification'
-            message = f'Your OTP Is {otp}'
-            sendEmail(subject, message,
-                      serializer.validated_data.get('email'))
+            subject = "Daan-i OTP Verification"
+            message = f"Your OTP Is {otp}"
+            sendEmail(subject, message, serializer.validated_data.get("email"))
 
-            cache.set(f"{serializer.validated_data.get(
-                'email')}ngo", otp, timeout=600)
-            return responseModel({
-                "message": gettext("userRegistersuccessfully"),
-
-            },
-                msg=gettext("userRegistersuccessfully")
-
+            cache.set(
+                f"{serializer.validated_data.get(
+                'email')}ngo",
+                otp,
+                timeout=600,
+            )
+            return responseModel(
+                {
+                    "message": gettext("userRegistersuccessfully"),
+                },
+                msg=gettext("userRegistersuccessfully"),
             )
 
         return responseModel(
             status=False,
             msg=errorMsg(serializer.errors),
-            data=serializer.errors, statusCode=status.HTTP_400_BAD_REQUEST)
+            data=serializer.errors,
+            statusCode=status.HTTP_400_BAD_REQUEST,
+        )
 
     def put(self, request, *args, **kwargs):
 
         ngoDetail = request.user
 
         if ngoDetail:
-            serializer = NgoDetailStep1Serializer(
-                data=request.data, partial=True)
+            serializer = NgoDetailStep1Serializer(data=request.data, partial=True)
             if serializer.is_valid():
-                serializer.update(instance=ngoDetail,
-                                  validated_data=serializer.validated_data)
+                serializer.update(
+                    instance=ngoDetail, validated_data=serializer.validated_data
+                )
 
                 return responseModel(
-                    status=True,
-                    msg=gettext("stepOneSuccessfullyUpdated")
+                    status=True, msg=gettext("stepOneSuccessfullyUpdated")
                 )
         return responseModel(
             status=False,
             msg=errorMsg("UserDetailNotExist"),
-            data="UserDetailNotExist", statusCode=status.HTTP_400_BAD_REQUEST)
+            data="UserDetailNotExist",
+            statusCode=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 class NGORegistrationStep2View(NGOBaseAuthAPIView):
@@ -84,52 +89,53 @@ class NGORegistrationStep2View(NGOBaseAuthAPIView):
 
         if user:
             return responseModel(
-                status=True,
-                data=NgoDetailStep2Serializer(instance=user).data
+                status=True, data=NgoDetailStep2Serializer(instance=user).data
             )
         return responseModel(
             status=False,
             msg=errorMsg("UserDetailNotExist"),
-            data="UserDetailNotExist", statusCode=status.HTTP_400_BAD_REQUEST)
+            data="UserDetailNotExist",
+            statusCode=status.HTTP_400_BAD_REQUEST,
+        )
 
     def post(self, request):
-        if not request.content_type.startswith('multipart/form-data'):
+        if not request.content_type.startswith("multipart/form-data"):
             return responseModel(
                 status=False,
-                msg=errorMsg('Multipart/form-data content type required.'),
-                data='Multipart/form-data content type required.', statusCode=status.HTTP_400_BAD_REQUEST)
+                msg=errorMsg("Multipart/form-data content type required."),
+                data="Multipart/form-data content type required.",
+                statusCode=status.HTTP_400_BAD_REQUEST,
+            )
 
         serializer = NgoDetailStep2Serializer(data=request.data)
         if serializer.is_valid():
-            serializer.update(instance=NGODetailModel.objects.get(
-                id=verifyAccessToken(
-                    request)), validated_data=serializer.validated_data)
-            return responseModel({
-                "message": gettext("registrationStepTwoCompleted")
-            },
-                msg=gettext("registrationStepTwoCompleted")
-
+            serializer.update(
+                instance=NGODetailModel.objects.get(id=verifyAccessToken(request)),
+                validated_data=serializer.validated_data,
+            )
+            return responseModel(
+                {"message": gettext("registrationStepTwoCompleted")},
+                msg=gettext("registrationStepTwoCompleted"),
             )
 
         return responseModel(
             status=False,
             msg=errorMsg(serializer.errors),
-            data=serializer.errors, statusCode=status.HTTP_400_BAD_REQUEST)
+            data=serializer.errors,
+            statusCode=status.HTTP_400_BAD_REQUEST,
+        )
 
     def put(self, request, *args, **kwargs):
 
         ngoDetail = request.user
 
-        serializer = NgoDetailStep2Serializer(
-            data=request.data, partial=True)
+        serializer = NgoDetailStep2Serializer(data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.update(instance=ngoDetail,
-                              validated_data=serializer.validated_data)
-
-            return responseModel(
-                status=True,
-                msg=gettext("stepTwoSuccessfullyUpdated")
+            serializer.update(
+                instance=ngoDetail, validated_data=serializer.validated_data
             )
+
+            return responseModel(status=True, msg=gettext("stepTwoSuccessfullyUpdated"))
 
 
 class NGORegistrationStep3View(NGOBaseAuthAPIView):
@@ -141,83 +147,97 @@ class NGORegistrationStep3View(NGOBaseAuthAPIView):
 
         if user:
             return responseModel(
-                status=True,
-                data=NgoDetailStep3Serializer(instance=user).data
+                status=True, data=NgoDetailStep3Serializer(instance=user).data
             )
         return responseModel(
             status=False,
             msg=errorMsg("UserDetailNotExist"),
-            data="UserDetailNotExist", statusCode=status.HTTP_400_BAD_REQUEST)
+            data="UserDetailNotExist",
+            statusCode=status.HTTP_400_BAD_REQUEST,
+        )
 
     def post(self, request):
 
         serializer = NgoDetailStep3Serializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.update(instance=NGODetailModel.objects.get(
-                id=verifyAccessToken(
-                    request)), validated_data=serializer.validated_data)
-            return responseModel({
-                "message": gettext("registrationStepThreeCompleted")
-            },
-                msg=gettext("registrationStepThreeCompleted")
+            serializer.update(
+                instance=NGODetailModel.objects.get(id=verifyAccessToken(request)),
+                validated_data=serializer.validated_data,
+            )
+            return responseModel(
+                {"message": gettext("registrationStepThreeCompleted")},
+                msg=gettext("registrationStepThreeCompleted"),
             )
 
         return responseModel(
             status=False,
             msg=errorMsg(serializer.errors),
-            data=serializer.errors, statusCode=status.HTTP_400_BAD_REQUEST)
+            data=serializer.errors,
+            statusCode=status.HTTP_400_BAD_REQUEST,
+        )
 
     def put(self, request, *args, **kwargs):
 
         ngoDetail = request.user
 
-        serializer = NgoDetailStep3Serializer(
-            data=request.data, partial=True)
+        serializer = NgoDetailStep3Serializer(data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.update(instance=ngoDetail,
-                              validated_data=serializer.validated_data)
+            serializer.update(
+                instance=ngoDetail, validated_data=serializer.validated_data
+            )
             return responseModel(
-                status=True,
-                msg=gettext("stepThreeSuccessfullyUpdated")
+                status=True, msg=gettext("stepThreeSuccessfullyUpdated")
             )
 
 
 class OTPVerificationView(NGOBaseAuthAPIView):
-    except_token_Api_method = ['POST']
+    except_token_Api_method = ["POST"]
 
     def post(self, request, *args, **kwargs):
         otpSerializer = OTPSerializer(data=request.data)
         if otpSerializer.is_valid():
-            cached_otp = cache.get(
-                otpSerializer.validated_data['email']+"ngo")
+            cached_otp = cache.get(otpSerializer.validated_data["email"] + "ngo")
 
             if cached_otp is None:
-                return responseModel({'message': 'OTP has expired or not generated yet.'}, status=False, statusCode=status.HTTP_400_BAD_REQUEST)
+                return responseModel(
+                    {"message": "OTP has expired or not generated yet."},
+                    status=False,
+                    statusCode=status.HTTP_400_BAD_REQUEST,
+                )
 
-            if otpSerializer.validated_data['otp'] == cached_otp:
+            if otpSerializer.validated_data["otp"] == cached_otp:
                 ngo_detail = NGODetailModel.objects.get(
-                    email=otpSerializer.validated_data['email'])
+                    email=otpSerializer.validated_data["email"]
+                )
                 ngo_detail.is_verified = True
                 ngo_detail.save()
 
-                cache.delete(otpSerializer.validated_data['email'])
-                return responseModel({
-                    'message': 'OTP verified successfully.',
-                    'token': getToken(user=ngo_detail)
-
-                }, statusCode=status.HTTP_200_OK)
+                cache.delete(otpSerializer.validated_data["email"])
+                return responseModel(
+                    {
+                        "message": "OTP verified successfully.",
+                        "token": getToken(user=ngo_detail),
+                    },
+                    statusCode=status.HTTP_200_OK,
+                )
             else:
 
-                return responseModel({'message': 'Incorrect OTP entered.'}, status=False, statusCode=status.HTTP_400_BAD_REQUEST)
+                return responseModel(
+                    {"message": "Incorrect OTP entered."},
+                    status=False,
+                    statusCode=status.HTTP_400_BAD_REQUEST,
+                )
 
         return responseModel(
             status=False,
-            data=otpSerializer.errors, statusCode=status.HTTP_400_BAD_REQUEST)
+            data=otpSerializer.errors,
+            statusCode=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 class LoginView(NGOBaseAuthAPIView):
-    except_token_Api_method = ['POST']
+    except_token_Api_method = ["POST"]
 
     def post(self, request):
         loginSerializer = LoginSerializer(data=request.data)
@@ -225,54 +245,65 @@ class LoginView(NGOBaseAuthAPIView):
         if loginSerializer.is_valid():
 
             user = NGODetailModel.objects.get(
-                email=loginSerializer.validated_data['email'])
+                email=loginSerializer.validated_data["email"]
+            )
 
-            if user.password == loginSerializer.validated_data['password']:
+            if user.password == loginSerializer.validated_data["password"]:
                 if user.is_verified:
 
                     return responseModel(
                         {
-                            'message': gettext("SuccessfulLogin"),
-                            'isVerify': True,
-                            'token': getToken(user=user)
+                            "message": gettext("SuccessfulLogin"),
+                            "isVerify": True,
+                            "token": getToken(user=user),
                         },
                         status=True,
                         msg=gettext("SuccessfulLogin"),
-                        statusCode=status.HTTP_200_OK
+                        statusCode=status.HTTP_200_OK,
                     )
                 else:
                     otp = generate_otp()
-                    subject = 'Daan-i OTP Verification'
-                    message = f'Your OTP Is {otp}'
-                    sendEmail(subject, message,
-                              loginSerializer.validated_data.get('email'))
-                    cache.set(f"{loginSerializer.validated_data.get(
-                        'email')}ngo", otp, timeout=600)
+                    subject = "Daan-i OTP Verification"
+                    message = f"Your OTP Is {otp}"
+                    sendEmail(
+                        subject, message, loginSerializer.validated_data.get("email")
+                    )
+                    cache.set(
+                        f"{loginSerializer.validated_data.get(
+                        'email')}ngo",
+                        otp,
+                        timeout=600,
+                    )
                     return responseModel(
                         {
-                            'message': gettext("YourAccountIsNotVerified.AndOTPHasBeenSentatGmail"),
-                            'isVerify': False
+                            "message": gettext(
+                                "YourAccountIsNotVerified.AndOTPHasBeenSentatGmail"
+                            ),
+                            "isVerify": False,
                         },
                         status=False,
                         msg=gettext(
-                            "YourAccountIsNotVerified.AndOTPHasBeenSentatGmail"),
-                        statusCode=status.HTTP_400_BAD_REQUEST
+                            "YourAccountIsNotVerified.AndOTPHasBeenSentatGmail"
+                        ),
+                        statusCode=status.HTTP_400_BAD_REQUEST,
                     )
 
             else:
                 return responseModel(
                     {
-                        'message': gettext("PasswordIncorrect"),
+                        "message": gettext("PasswordIncorrect"),
                     },
                     status=False,
                     msg=gettext("PasswordIncorrect"),
-                    statusCode=status.HTTP_400_BAD_REQUEST
+                    statusCode=status.HTTP_400_BAD_REQUEST,
                 )
 
         return responseModel(
             status=False,
             msg=errorMsg(loginSerializer.errors),
-            data=loginSerializer.errors, statusCode=status.HTTP_400_BAD_REQUEST)
+            data=loginSerializer.errors,
+            statusCode=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 def generate_otp():

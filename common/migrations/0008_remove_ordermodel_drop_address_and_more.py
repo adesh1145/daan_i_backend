@@ -7,28 +7,40 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('common', '0007_orderimage_order_alter_orderimage_id'),
+        ("common", "0007_orderimage_order_alter_orderimage_id"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='ordermodel',
-            name='drop_address',
+            model_name="ordermodel",
+            name="drop_address",
         ),
         migrations.RemoveField(
-            model_name='ordermodel',
-            name='pickup_address',
+            model_name="ordermodel",
+            name="pickup_address",
         ),
         migrations.AddField(
-            model_name='orderaddressmodel',
-            name='addres_type',
-            field=models.CharField(choices=[('pickup_address', 'PickUp Address'), ('drop_address', 'Drop Address')], default=1, max_length=255),
+            model_name="orderaddressmodel",
+            name="addres_type",
+            field=models.CharField(
+                choices=[
+                    ("pickup_address", "PickUp Address"),
+                    ("drop_address", "Drop Address"),
+                ],
+                default=1,
+                max_length=255,
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='orderaddressmodel',
-            name='order',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='address', to='common.ordermodel'),
+            model_name="orderaddressmodel",
+            name="order",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="address",
+                to="common.ordermodel",
+            ),
             preserve_default=False,
         ),
     ]
