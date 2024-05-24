@@ -159,8 +159,7 @@ class LoginView(APIView):
                         subject, message, loginSerializer.validated_data.get("email")
                     )
                     cache.set(
-                        f"{loginSerializer.validated_data.get(
-                        'email')}",
+                        f"{loginSerializer.validated_data.get('email')}",
                         otp,
                         timeout=600,
                     )

@@ -38,8 +38,7 @@ class NGORegistrationStep1View(NGOBaseAuthAPIView):
             sendEmail(subject, message, serializer.validated_data.get("email"))
 
             cache.set(
-                f"{serializer.validated_data.get(
-                'email')}ngo",
+                f"{serializer.validated_data.get('email')}ngo",
                 otp,
                 timeout=600,
             )
@@ -269,8 +268,7 @@ class LoginView(NGOBaseAuthAPIView):
                         subject, message, loginSerializer.validated_data.get("email")
                     )
                     cache.set(
-                        f"{loginSerializer.validated_data.get(
-                        'email')}ngo",
+                        f"{loginSerializer.validated_data.get('email')}ngo",
                         otp,
                         timeout=600,
                     )
