@@ -39,7 +39,7 @@ class UserRegistrationView(DonarBaseAuthAPIView):
             otp = generate_otp()
             subject = "Daan-i OTP Verification"
             message = f"Your OTP Is {otp}"
-            # sendEmail(subject, message, serializer.validated_data.get("email"))
+            sendEmail(subject, message, serializer.validated_data.get("email"))
 
             cache.set(serializer.validated_data.get("email"), otp, timeout=600)
             return responseModel(
@@ -162,9 +162,9 @@ class LoginView(APIView):
                     otp = generate_otp()
                     subject = "Daan-i OTP Verification"
                     message = f"Your OTP Is {otp}"
-                    # sendEmail(
-                    #     subject, message, loginSerializer.validated_data.get("email")
-                    # )
+                    sendEmail(
+                        subject, message, loginSerializer.validated_data.get("email")
+                    )
                     cache.set(
                         f"{loginSerializer.validated_data.get('email')}",
                         otp,
