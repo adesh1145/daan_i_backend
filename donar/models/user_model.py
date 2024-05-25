@@ -13,7 +13,7 @@ class UserDetailModel(models.Model):
     )  # Automatically set on creation
     updated_date = models.DateTimeField(auto_now=True)  # Automatically set on update
     profile_image = models.ImageField(blank=True)  # Store image URL
-    address = models.CharField(max_length=255, blank=True)
+    bio = models.CharField(max_length=512, blank=True)
 
     class Meta:
         db_table = "donar_user_detail"

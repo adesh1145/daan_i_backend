@@ -16,7 +16,7 @@ class UserDetailSerializer(serializers.Serializer):
     # created_date = serializers.DateTimeField(read_only=True)  # Created date as read-only
     # updated_date = serializers.DateTimeField(read_only=True)
     profile_image = serializers.ImageField(required=False)  # Store image URL
-    address = serializers.CharField(max_length=255, required=False)
+    bio = serializers.CharField(max_length=512, required=False)
 
     def __str__(self):
         return self.name
@@ -36,10 +36,12 @@ class UserDetailSerializer(serializers.Serializer):
         return UserDetailModel.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
+        print(validated_data)
         instance.name = validated_data.get("name", instance.name)
         instance.profile_image = validated_data.get(
             "profile_image", instance.profile_image
         )
+        instance.bio = validated_data.get("bio", instance.bio)
 
         instance.save()
 

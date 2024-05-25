@@ -23,7 +23,9 @@ def errorMsg(errors: dict | list) -> str:
     if isinstance(errors, dict):
 
         for _, error_list in errors.items():
-            return error_list[0] if isinstance(error_list, list) else error_list
+            return (
+                f"{_}: {error_list[0]}" if isinstance(error_list, list) else error_list
+            )
     elif isinstance(errors, list):
         for error_list in errors:
             return error_list

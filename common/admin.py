@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from common.models.banner_model import BannerModel
 from common.models.order_address_model import OrderAddressModel
 from common.models.order_model import OrderImage, OrderModel
 
@@ -58,3 +59,10 @@ class OrderAdmin(admin.ModelAdmin):
 
 admin.site.register(OrderModel, OrderAdmin)
 admin.site.register(OrderImage)
+
+
+class BannerAdmin(admin.ModelAdmin):
+    list_display = ["id", "image"]
+
+
+admin.site.register(BannerModel, BannerAdmin)

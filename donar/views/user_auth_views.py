@@ -39,12 +39,12 @@ class UserRegistrationView(DonarBaseAuthAPIView):
             otp = generate_otp()
             subject = "Daan-i OTP Verification"
             message = f"Your OTP Is {otp}"
-            sendEmail(subject, message, serializer.validated_data.get("email"))
+            # sendEmail(subject, message, serializer.validated_data.get("email"))
 
             cache.set(serializer.validated_data.get("email"), otp, timeout=600)
             return responseModel(
-                {"message": gettext("userRegistersuccessfully")},
-                msg=gettext("userRegistersuccessfully"),
+                {"message": gettext("OtpHasBeenSentYourEmail")},
+                msg=gettext("OtpHasBeenSentYourEmail"),
             )
         return responseModel(
             status=False,
@@ -54,29 +54,35 @@ class UserRegistrationView(DonarBaseAuthAPIView):
         )
 
     def put(self, request, *args, **kwargs):
-        ngoDetail = request.user
+        if not request.content_type.startswith("multipart/form-data"):
+            return responseModel(
+                status=False,
+                msg=errorMsg("Multipart/form-data content type required."),
+                data="Multipart/form-data content type required.",
+                statusCode=status.HTTP_400_BAD_REQUEST,
+            )
+        donarDetail = request.user
 
-        if ngoDetail:
-            serializer = UserDetailSerializer(data=request.data, partial=True)
-            if serializer.is_valid():
-                serializer.update(
-                    validated_data=serializer.validated_data, instance=ngoDetail
-                )
+        serializer = UserDetailSerializer(data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.update(
+                validated_data=serializer.validated_data, instance=donarDetail
+            )
 
-                return responseModel(status=True, msg=gettext("profileUpdated"))
-            else:
-                print(serializer.is_valid())
+            return responseModel(status=True, msg=gettext("profileUpdated"))
         return responseModel(
             status=False,
-            msg=errorMsg("UserDetailNotExist"),
-            data="UserDetailNotExist",
+            msg=gettext(
+                errorMsg(serializer.errors),
+            ),
+            data=serializer.errors,
             statusCode=status.HTTP_400_BAD_REQUEST,
         )
 
 
 def generate_otp():
     otp = random.randint(1000, 9999)
-    return otp
+    return 1234
 
 
 class OTPVerificationView(APIView):
@@ -114,6 +120,7 @@ class OTPVerificationView(APIView):
                 return responseModel(
                     {"message": "Incorrect OTP entered."},
                     status=False,
+                    msg="Incorrect OTP entered.",
                     statusCode=status.HTTP_400_BAD_REQUEST,
                 )
 
@@ -155,9 +162,9 @@ class LoginView(APIView):
                     otp = generate_otp()
                     subject = "Daan-i OTP Verification"
                     message = f"Your OTP Is {otp}"
-                    sendEmail(
-                        subject, message, loginSerializer.validated_data.get("email")
-                    )
+                    # sendEmail(
+                    #     subject, message, loginSerializer.validated_data.get("email")
+                    # )
                     cache.set(
                         f"{loginSerializer.validated_data.get('email')}",
                         otp,

@@ -11,4 +11,5 @@ class AdminConfig(AppConfig):
             category_model,
             order_address_model,
             order_model,
+            banner_model,
         )
