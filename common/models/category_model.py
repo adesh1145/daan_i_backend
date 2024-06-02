@@ -4,6 +4,7 @@ from django.db import models
 class CategoryModel(models.Model):
     id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=100)
+    img = models.ImageField(0)
 
     class Meta:
         db_table = "category"

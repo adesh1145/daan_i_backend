@@ -4,10 +4,11 @@ from daan_i_backend.utils.response_model import responseModel
 
 from ..models.state_city_models import CityModel, StateModel
 from ..serializers.state_city_serializer import StateSerializer, CitySerializer
+from rest_framework.permissions import AllowAny
 
 
 class StateView(ListAPIView):
-
+    permission_classes = [AllowAny]
     queryset = StateModel.objects.all()
     serializer_class = StateSerializer
 
@@ -19,7 +20,7 @@ class StateView(ListAPIView):
 
 
 class CityView(ListAPIView):
-
+    permission_classes = [AllowAny]
     queryset = CityModel.objects.all()
     serializer_class = CitySerializer
 

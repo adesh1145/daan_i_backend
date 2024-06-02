@@ -25,6 +25,7 @@ class AddressSerializer(serializers.Serializer):
     )
     city_detail = serializers.SerializerMethodField()
     is_default = serializers.BooleanField(default=False)
+    is_active = serializers.BooleanField(default=True)
     # user = serializers.PrimaryKeyRelatedField(
     #     queryset=UserDetailModel.objects.all())
 

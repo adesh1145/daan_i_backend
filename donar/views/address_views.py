@@ -8,7 +8,7 @@ from ..serializers.address_serializer import AddressSerializer
 class AddressView(DonarBaseAuthAPIView):
 
     def get(self, request, *args, **kwargs):
-        addrss = AddressModel.objects.filter(user=request.user)
+        addrss = AddressModel.objects.filter(user=request.user, is_active=True)
 
         return responseModel(
             status=True, data={"address": AddressSerializer(addrss, many=True).data}
@@ -35,13 +35,22 @@ class AddressView(DonarBaseAuthAPIView):
         serializer = AddressSerializer(data=request.data, context=request, partial=True)
 
         if serializer.is_valid():
-            print(serializer.validated_data["id"])
-            address = serializer.update(
-                validated_data=serializer.validated_data,
-                instance=AddressModel.objects.get(id=serializer.validated_data["id"]),
-            )
+            if AddressModel.objects.get(
+                id=serializer.validated_data["id"], is_active=True
+            ).exists():
+
+                serializer.update(
+                    validated_data=serializer.validated_data,
+                    instance=AddressModel.objects.get(
+                        id=serializer.validated_data["id"]
+                    ),
+                )
+                return responseModel(
+                    {"message": gettext("addressUpdated")},
+                    msg=gettext("addressUpdated"),
+                )
             return responseModel(
-                {"message": gettext("addressUpdated")}, msg=gettext("addressUpdated")
+                {"message": gettext("addressNotFound")}, msg=gettext("addressNotFound")
             )
         return responseModel(
             status=False,
@@ -52,11 +61,13 @@ class AddressView(DonarBaseAuthAPIView):
 
     def delete(self, request, *args, **kwargs):
         address_id = kwargs.get("id")
-        print(address_id)
+
         if address_id:
             if AddressModel.objects.filter(id=address_id).exists():
                 address = AddressModel.objects.get(id=address_id)
-                address.delete()
+                setattr(address, address.is_active, False)
+
+                address.save()
                 return responseModel(status=True, msg=gettext("addressDeleted"))
             responseModel(
                 status=False,

@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from common.serializers.state_city_serializer import CitySerializer, StateSerializer
 from ..models.ngo_user_model import NGODetailModel
 from donar.models.user_model import UserDetailModel
 
@@ -14,7 +16,7 @@ class NgoDetailStep1Serializer(serializers.Serializer):
     email = serializers.EmailField()
     mobile = serializers.CharField(max_length=10)
     password = serializers.CharField(write_only=True, max_length=100)
-    t_and_c_status = serializers.BooleanField(default=False)
+    t_and_c_status = serializers.BooleanField(write_only=True, default=False)
 
     def __str__(self):
         return self.ngo_name
@@ -115,7 +117,9 @@ class NgoDetailStep3Serializer(serializers.Serializer):
     )
     pincode = serializers.IntegerField()
     state = serializers.PrimaryKeyRelatedField(queryset=StateModel.objects.all())
+    state_detail = serializers.SerializerMethodField()
     city = serializers.PrimaryKeyRelatedField(queryset=CityModel.objects.all())
+    city_detail = serializers.SerializerMethodField()
 
     def validate(self, attrs):
         # print(attrs)
@@ -127,6 +131,21 @@ class NgoDetailStep3Serializer(serializers.Serializer):
         elif not NGODetailModel.objects.get(id=data).is_verified == True:
             raise serializers.ValidationError(_("yourAccountIsNotVerify"))
         return data
+
+    def get_city_detail(self, obj):
+
+        cities = CitySerializer(
+            obj.city,
+        ).data
+        cities.pop("state")
+        return cities
+
+    def get_state_detail(self, obj):
+        print(obj.state)
+        states = obj.state
+        return StateSerializer(
+            states,
+        ).data
 
     def validate_city(self, value):
 

@@ -141,10 +141,9 @@ class NGORegistrationStep3View(NGOBaseAuthAPIView):
     except_token_Api_method = ["POST"]
 
     def get(self, request, *args, **kwargs):
-
         user = request.user
-
         if user:
+
             return responseModel(
                 status=True, data=NgoDetailStep3Serializer(instance=user).data
             )

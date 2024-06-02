@@ -12,6 +12,7 @@ Including another URLconf
 
 from django.urls import path
 
+from common.views.achivement_views import AcheiveView
 from common.views.banner_views import BannerView
 from .views.category_views import CategoryView
 from .views.state_city_views import StateView, CityView
@@ -22,4 +23,5 @@ urlpatterns = [
     path("state", StateView.as_view(), name="State List"),
     path("city", CityView.as_view(), name="City List"),
     path("banner", BannerView.as_view(), name="Banner List"),
+    path("acheivement", AcheiveView.as_view(), name="My Acheivement List"),
 ]

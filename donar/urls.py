@@ -11,6 +11,9 @@ Including another URLconf
 """
 
 from django.urls import path
+
+from donar.views.donate_views import DonateView, DonationHistoryView
+from donar.views.near_by_ngo_views import NearByNgoView
 from .views.user_auth_views import *
 from .views.address_views import *
 
@@ -20,4 +23,16 @@ urlpatterns = [
     path("login", LoginView.as_view(), name="Donar Login"),
     path("address", AddressView.as_view(), name="Address"),
     path("address/<int:id>", AddressView.as_view(), name="Address with Id"),
+    path("nearByNgo", NearByNgoView.as_view(), name="Near By NGO List"),
+    path("donate", DonateView.as_view(), name="Donate"),
+    path(
+        "donateHistory/<int:id>",
+        DonationHistoryView.as_view(),
+        name="Donate History List",
+    ),
+    path(
+        "donateHistory",
+        DonationHistoryView.as_view(),
+        name="Donate History List",
+    ),
 ]

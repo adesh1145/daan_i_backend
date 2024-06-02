@@ -26,6 +26,7 @@ class AddressModel(models.Model):
         on_delete=models.CASCADE,
     )
     is_default = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     created_date = models.DateTimeField(
         auto_now_add=True
     )  # Automatically set on creation
