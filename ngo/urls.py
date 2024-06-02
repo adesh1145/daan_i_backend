@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from ngo.views.my_donation_views import MyDonationView
 from ngo.views.ngo_auth_views import *
 
 urlpatterns = [
@@ -27,4 +28,6 @@ urlpatterns = [
     ),
     path("otpVerify", OTPVerificationView.as_view(), name="NGO OTP Verification"),
     path("login", LoginView.as_view(), name="NGO Login"),
+    path("myDonation", MyDonationView.as_view(), name="My Donation List"),
+    path("myDonation/<int:id>", MyDonationView.as_view(), name="My Donation List"),
 ]

@@ -14,6 +14,7 @@ from django.urls import path
 
 from donar.views.donate_views import DonateView, DonationHistoryView
 from donar.views.near_by_ngo_views import NearByNgoView
+from donar.views.top_donar_views import TopDonorsView
 from .views.user_auth_views import *
 from .views.address_views import *
 
@@ -34,5 +35,10 @@ urlpatterns = [
         "donateHistory",
         DonationHistoryView.as_view(),
         name="Donate History List",
+    ),
+    path(
+        "topDonar",
+        TopDonorsView.as_view(),
+        name="Top Donar List",
     ),
 ]

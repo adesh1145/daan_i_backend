@@ -10,6 +10,8 @@ from django.utils.translation import gettext
 
 class AddressSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
+    name = serializers.CharField(max_length=255)
+    mobile = serializers.CharField(max_length=255)
     latitude = serializers.FloatField()
     longitude = serializers.FloatField()
     address = serializers.CharField(max_length=255)
@@ -48,7 +50,7 @@ class AddressSerializer(serializers.Serializer):
         raise serializers.ValidationError(gettext("CityIdNotExistInThisState"))
 
     def get_state_detail(self, obj):
-        print(obj.state)
+
         states = obj.state
         return StateSerializer(
             states,

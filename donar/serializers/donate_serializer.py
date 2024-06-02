@@ -1,11 +1,10 @@
 import uuid
 from rest_framework import serializers
-from common.models.category_model import CategoryModel
 from common.models.order_model import *
-from donar.models.address_model import AddressModel
 from django.utils.translation import gettext
+from donar.serializers.near_by_ngo_serializer import NearByNgoSerializer
+from donar.serializers.address_serializer import AddressSerializer
 from ngo.serializers.ngo_detail_serializer import *
-from donar.models.user_model import UserDetailModel
 
 
 class DonateSerializer(serializers.ModelSerializer):
@@ -58,6 +57,8 @@ class OrderImageSerializer(serializers.ModelSerializer):
 
 class DonationHistorySerializer(serializers.ModelSerializer):
     image_urls = OrderImageSerializer(source="images", many=True, read_only=True)
+    ngo_detail = NearByNgoSerializer(source="ngo")
+    pickup_address = AddressSerializer(source="donar_address")
 
     class Meta:
         model = OrderModel
@@ -67,9 +68,9 @@ class DonationHistorySerializer(serializers.ModelSerializer):
             "category",
             "weight",
             "description",
-            "donar",
-            "donar_address",
+            "pickup_address",
             "ngo",
+            "ngo_detail",
             "order_status",
             "created_date",
             "updated_date",

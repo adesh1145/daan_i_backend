@@ -36,7 +36,7 @@ class UserDetailSerializer(serializers.Serializer):
         return UserDetailModel.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        print(validated_data)
+
         instance.name = validated_data.get("name", instance.name)
         instance.profile_image = validated_data.get(
             "profile_image", instance.profile_image

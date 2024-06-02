@@ -5,6 +5,8 @@ from donar.models.user_model import UserDetailModel
 
 class AddressModel(models.Model):
     id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, blank=False, null=False)
+    mobile = models.CharField(max_length=255, blank=False, null=False)
     latitude = models.FloatField(default=0.0)
     longitude = models.FloatField(default=0.0)
     address = models.CharField(max_length=255, blank=True)

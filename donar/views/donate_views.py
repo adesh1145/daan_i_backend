@@ -1,4 +1,4 @@
-from common.models.order_model import OrderModel
+from common.models.order_model import *
 from daan_i_backend.utils.response_model import errorMsg
 from donar.serializers.donate_serializer import (
     DonateSerializer,
@@ -33,8 +33,44 @@ class DonateView(DonarBaseAuthAPIView):
 
 class DonationHistoryView(DonarBaseAuthAPIView):
     def get(self, request, *args, **kwargs):
-        request.user.id
         order_id = kwargs.get("id")
+        order_status = request.query_params.get("donationStatus")
+        if order_id is not None:
+            orders = OrderModel.objects.filter(donar=request.user, id=order_id)
+            if orders.exists():
+                return responseModel(
+                    status=True,
+                    data={
+                        "donation": DonationHistorySerializer(orders, many=True).data
+                    },
+                )
+            return responseModel(
+                status=False,
+                msg="Invalid order id provided.",
+            )
+
+        elif order_status and order_status in dict(orderStatus):
+
+            orders = OrderModel.objects.filter(
+                donar=request.user, order_status=order_status
+            )
+            return responseModel(
+                status=True,
+                data={"donation": DonationHistorySerializer(orders, many=True).data},
+            )
+        elif order_status:
+            return responseModel(
+                status=False,
+                msg="Invalid order status provided.",
+                statusCode=status.HTTP_400_BAD_REQUEST,
+            )
+        else:
+            orders = OrderModel.objects.filter(donar=request.user)
+            return responseModel(
+                status=True,
+                data={"donation": DonationHistorySerializer(orders, many=True).data},
+            )
+
         if order_id:
             orders = OrderModel.objects.filter(donar=request.user, id=order_id)
 

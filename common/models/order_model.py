@@ -7,10 +7,10 @@ from ngo.models.ngo_user_model import NGODetailModel
 
 orderStatus = [
     ("ongoing", "Ongoing"),
-    ("booked", "Booked"),
     ("accept", "Accepted"),
     ("complete", "Completed"),
     ("cancel", "Cancelled"),
+    ("reject", "Rejected"),
 ]
 
 

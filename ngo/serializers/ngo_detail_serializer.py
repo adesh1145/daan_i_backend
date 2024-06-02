@@ -141,7 +141,7 @@ class NgoDetailStep3Serializer(serializers.Serializer):
         return cities
 
     def get_state_detail(self, obj):
-        print(obj.state)
+
         states = obj.state
         return StateSerializer(
             states,

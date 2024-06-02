@@ -7,8 +7,7 @@ from daan_i_backend.utils.response_model import responseModel
 def custom_exception_handler(exc, context):
     # Call the default handler first to get the standard error response.
     response = exception_handler(exc, context)
-    print(exc)
-    print(context)
+
     # Now add your custom logic or replace the default response entirely
     if response is not None and "token_not_valid" in str(exc):
 
