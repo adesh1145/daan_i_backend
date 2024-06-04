@@ -15,11 +15,13 @@ class StateAdmin(admin.ModelAdmin):
         "id",
         "name",
     ]
+    search_fields = ["id", "name"]
 
 
 class CityAdmin(admin.ModelAdmin):
     # Display these fields in the admin panel
     list_display = ["id", "name"]
+    search_fields = ["id", "name"]
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -28,6 +30,7 @@ class CategoryAdmin(admin.ModelAdmin):
         "id",
         "category_name",
     ]
+    search_fields = ["id", "category_name"]
 
 
 admin.site.register(StateModel, StateAdmin)
@@ -43,7 +46,7 @@ class OrderImageInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ["id", "order_id", "donar", "ngo", "order_status"]
     list_filter = ["order_status"]
-    search_fields = ["order_id"]
+    search_fields = ["order_id", "id"]
     inlines = [
         OrderImageInline,
     ]
