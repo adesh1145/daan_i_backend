@@ -39,9 +39,14 @@ class UserRegistrationView(DonarBaseAuthAPIView):
             otp = generate_otp()
             subject = "Daan-i OTP Verification"
             message = f"Your OTP Is {otp}"
-            sendEmail(subject, message, serializer.validated_data.get("email"))
+            cache.set(
+                serializer.validated_data.get("email") + "donar", otp, timeout=600
+            )
+            try:
+                sendEmail(subject, message, serializer.validated_data.get("email"))
+            except Exception as e:
+                pass
 
-            cache.set(serializer.validated_data.get("email"), otp, timeout=600)
             return responseModel(
                 {"message": gettext("OtpHasBeenSentYourEmail")},
                 msg=gettext("OtpHasBeenSentYourEmail"),
@@ -82,7 +87,7 @@ class UserRegistrationView(DonarBaseAuthAPIView):
 
 def generate_otp():
     otp = random.randint(1000, 9999)
-    return 1234
+    return otp
 
 
 class OTPVerificationView(APIView):
@@ -91,11 +96,12 @@ class OTPVerificationView(APIView):
     def post(self, request, *args, **kwargs):
         otpSerializer = OTPSerializer(data=request.data)
         if otpSerializer.is_valid():
-            cached_otp = cache.get(otpSerializer.validated_data["email"])
-
+            cached_otp = cache.get(otpSerializer.validated_data["email"] + "donar")
+            print(cached_otp)
             if cached_otp is None:
                 return responseModel(
-                    {"message": "OTP has expired or not generated yet."},
+                    msg="OTP has expired or not generated yet.",
+                    data={"message": "OTP has expired or not generated yet."},
                     status=False,
                     statusCode=status.HTTP_400_BAD_REQUEST,
                 )
@@ -107,7 +113,7 @@ class OTPVerificationView(APIView):
                 user_detail.isVerified = True
                 user_detail.save()
 
-                cache.delete(otpSerializer.validated_data["email"])
+                cache.delete(otpSerializer.validated_data["email"] + "donar")
                 return responseModel(
                     {
                         "message": "OTP verified successfully.",
@@ -162,9 +168,15 @@ class LoginView(APIView):
                     otp = generate_otp()
                     subject = "Daan-i OTP Verification"
                     message = f"Your OTP Is {otp}"
-                    sendEmail(
-                        subject, message, loginSerializer.validated_data.get("email")
-                    )
+                    try:
+                        sendEmail(
+                            subject,
+                            message,
+                            loginSerializer.validated_data.get("email"),
+                        )
+                    except Exception as e:
+                        pass
+
                     cache.set(
                         f"{loginSerializer.validated_data.get('email')}",
                         otp,
