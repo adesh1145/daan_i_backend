@@ -12,3 +12,5 @@ class AdminConfig(AppConfig):
             order_model,
             banner_model,
         )
+
+        # import management
