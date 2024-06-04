@@ -15,7 +15,7 @@ class AddressSerializer(serializers.Serializer):
     latitude = serializers.FloatField()
     longitude = serializers.FloatField()
     address = serializers.CharField(max_length=255)
-    landmark = serializers.CharField(max_length=255)
+    landmark = serializers.CharField(max_length=255, required=False, allow_blank=True)
     pincode = serializers.IntegerField()
     state = serializers.PrimaryKeyRelatedField(
         write_only=True, queryset=StateModel.objects.all()
@@ -73,6 +73,8 @@ class AddressSerializer(serializers.Serializer):
         raise serializers.ValidationError(gettext("CityIdNotExistInThisState"))
 
     def update(self, instance, validated_data):
+        instance.name = validated_data.get("name", instance.latitude)
+        instance.mobile = validated_data.get("mobile", instance.latitude)
         instance.latitude = validated_data.get("latitude", instance.latitude)
         instance.longitude = validated_data.get("longitude", instance.longitude)
         instance.address = validated_data.get("address", instance.address)

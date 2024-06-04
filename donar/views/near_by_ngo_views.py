@@ -12,7 +12,7 @@ from ..models.address_model import AddressModel
 
 class NearByNgoView(DonarBaseAuthAPIView):
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         request.user
         serializer = NearByNgoSerializer(data=request.data, context=request.user)
         if serializer.is_valid():

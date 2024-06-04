@@ -35,7 +35,7 @@ class AddressView(DonarBaseAuthAPIView):
         serializer = AddressSerializer(data=request.data, context=request, partial=True)
 
         if serializer.is_valid():
-            if AddressModel.objects.get(
+            if AddressModel.objects.filter(
                 id=serializer.validated_data["id"], is_active=True
             ).exists():
 
@@ -65,7 +65,8 @@ class AddressView(DonarBaseAuthAPIView):
         if address_id:
             if AddressModel.objects.filter(id=address_id).exists():
                 address = AddressModel.objects.get(id=address_id)
-                setattr(address, address.is_active, False)
+
+                setattr(address, "is_active", False)
 
                 address.save()
                 return responseModel(status=True, msg=gettext("addressDeleted"))

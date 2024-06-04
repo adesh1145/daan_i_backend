@@ -65,7 +65,6 @@ class OrderModel(models.Model):
 
 
 class OrderImage(models.Model):
-
     order = models.ForeignKey(
         OrderModel, related_name="images", on_delete=models.CASCADE
     )

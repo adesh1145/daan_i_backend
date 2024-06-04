@@ -18,6 +18,11 @@ class NearByNgoSerializer(serializers.Serializer):
         step1 = NgoDetailStep1Serializer(
             instance=instance,
         ).data
+        step2 = NgoDetailStep2Serializer(
+            instance=instance,
+        ).data
+
         step3 = NgoDetailStep3Serializer(instance=instance).data
+        step1.update(step2)
         step1.update(step3)
         return step1

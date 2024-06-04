@@ -19,7 +19,6 @@ class DonateSerializer(serializers.ModelSerializer):
             "category",
             "weight",
             "description",
-            "donar",
             "donar_address",
             "ngo",
             "order_status",
@@ -33,13 +32,10 @@ class DonateSerializer(serializers.ModelSerializer):
 
         return super().to_representation(instance)
 
-    def validate(self, attrs):
-
-        return super().validate(attrs)
-
     def create(self, validated_data):
         # Set the default order status to 'ongoing'
 
+        validated_data["donar"] = self.context
         validated_data["order_status"] = orderStatus[0][0]
         validated_data["order_id"] = f"DAANI{uuid.uuid4().hex[:6].upper()}"
         images = validated_data.pop("images")
@@ -59,6 +55,7 @@ class DonationHistorySerializer(serializers.ModelSerializer):
     image_urls = OrderImageSerializer(source="images", many=True, read_only=True)
     ngo_detail = NearByNgoSerializer(source="ngo")
     pickup_address = AddressSerializer(source="donar_address")
+    category_detail = CategorySerializer(source="category")
 
     class Meta:
         model = OrderModel
@@ -66,6 +63,7 @@ class DonationHistorySerializer(serializers.ModelSerializer):
             "id",
             "order_id",
             "category",
+            "category_detail",
             "weight",
             "description",
             "pickup_address",

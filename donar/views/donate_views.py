@@ -6,13 +6,20 @@ from donar.serializers.donate_serializer import (
 )
 from donar.views.custom_base_auth_apiview import DonarBaseAuthAPIView
 from ..common_imports import *
-from ngo.models.ngo_user_model import NGODetailModel
 
 
 class DonateView(DonarBaseAuthAPIView):
 
     def post(self, request, *args, **kwargs):
-        request.data["donar"] = request.user.id
+        if not request.content_type.startswith("multipart/form-data"):
+            return responseModel(
+                status=False,
+                msg=errorMsg("Multipart/form-data content type required."),
+                data="Multipart/form-data content type required.",
+                statusCode=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # request.data["donar"] = request.user
         order_id = kwargs.get("id")
 
         serializer = DonateSerializer(data=request.data, context=request.user)
@@ -66,21 +73,6 @@ class DonationHistoryView(DonarBaseAuthAPIView):
             )
         else:
             orders = OrderModel.objects.filter(donar=request.user)
-            return responseModel(
-                status=True,
-                data={"donation": DonationHistorySerializer(orders, many=True).data},
-            )
-
-        if order_id:
-            orders = OrderModel.objects.filter(donar=request.user, id=order_id)
-
-            return responseModel(
-                status=True,
-                data={"donation": DonationHistorySerializer(orders, many=True).data},
-            )
-        else:
-            orders = OrderModel.objects.filter(donar=request.user)
-
             return responseModel(
                 status=True,
                 data={"donation": DonationHistorySerializer(orders, many=True).data},

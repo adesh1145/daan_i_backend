@@ -12,6 +12,7 @@ from common.serializers.category_serializer import CategorySerializer
 
 
 class NgoDetailStep1Serializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     ngo_name = serializers.CharField(max_length=255)
     email = serializers.EmailField()
     mobile = serializers.CharField(max_length=10)

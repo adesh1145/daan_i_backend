@@ -5,6 +5,7 @@ from ..models.user_model import UserDetailModel
 
 class TopDonorSerializer(serializers.ModelSerializer):
     total_donations = serializers.IntegerField()
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = UserDetailModel
