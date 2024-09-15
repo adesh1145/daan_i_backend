@@ -82,13 +82,13 @@ WSGI_APPLICATION = "daan_i_backend.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-# ! For Sqlite3
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
+# ! For  Local DataBase Sqlite3
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
 # ! for Aws RDS=> Mysql
 # DATABASES = {
 #     'default': {
@@ -100,14 +100,14 @@ WSGI_APPLICATION = "daan_i_backend.wsgi.application"
 #         'PORT': '3306',
 #     }
 # }
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "OPTIONS": {
-            "read_default_file": "/etc/mysql/my.cnf",
-        },
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "OPTIONS": {
+#             "read_default_file": "/etc/mysql/my.cnf",
+#         },
+#     }
+# }
 #  db user= admin  pass=>admin@daanidatabase
 
 # Password validation
@@ -172,9 +172,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "daan_i_backend.utils.custom_exception_handler.custom_exception_handler",
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
+    # "DEFAULT_AUTHENTICATION_CLASSES": (
+    #     "rest_framework_simplejwt.authentication.JWTAuthentication",
+    # ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
 SIMPLE_JWT = {

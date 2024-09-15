@@ -1,0 +1,71 @@
+# Ignore environment directories
+env/
+.env/
+.venv/
+venv/
+ENV/
+env.bak/
+venv.bak/
+# Ignore environment variable files
+.env
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore mypy and pylint cache
+.mypy_cache/
+.pylint.d/
+
+# Ignore coverage reports
+.coverage
+*.cover
+*.py,cover
+
+# Ignore pytest cache
+.cache/
+nosetests.xml
+coverage.xml
+*.log
+
+# Ignore local IDE settings and caches
+.vscode/
+.idea/
+*.swp
+
+# Ignore build and distribution directories
+build/
+dist/
+*.egg-info/
+
+# Ignore configuration files that should not be in version control
+*.env
+*.local
+*.log
+
+# Ignore database files
+*.sqlite3
+
+# Ignore temporary files
+*.tmp
+*.bak
+*.swp
+
+# Ignore operating system specific files
+.DS_Store
+Thumbs.db
+
+# Ignore Docker and virtual environment files
+docker-compose.override.yml
+docker-compose.local.yml
+Dockerfile.local
+.env.docker
+
+# Ignore local configuration files
+config/local_settings.py
+

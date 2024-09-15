@@ -37,6 +37,7 @@ class UserRegistrationView(DonarBaseAuthAPIView):
         if serializer.is_valid():
             user = serializer.save()
             otp = generate_otp()
+            print(otp)
             subject = "Daan-i OTP Verification"
             message = f"Your OTP Is {otp}"
             cache.set(
